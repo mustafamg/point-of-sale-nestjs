@@ -9,7 +9,7 @@ export class CategoriesController {
         return [{
             id: 1,
             color: "red",
-            icon: "fa-eye",
+            icon: "home",
             name: "some name"
         } as Category
         ];
