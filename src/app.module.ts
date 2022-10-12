@@ -8,7 +8,7 @@ import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [ProductsModule,
-    TypeOrmModule.forRoot({
+    /*TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
       port: 3307,
@@ -17,7 +17,8 @@ import { ProductsModule } from './products/products.module';
       database: 'mysqltest',
       entities: [Category],
       synchronize: true,
-    }),],
+    })*/
+    ],
   controllers: [AppController, CategoriesController],
   providers: [AppService],
 })
