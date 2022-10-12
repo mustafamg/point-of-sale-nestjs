@@ -8,16 +8,17 @@ import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [ProductsModule,
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3307,
-      username: 'root',
-      password: 'darsh123',
-      database: 'mysqltest',
-      entities: [Category],
-      synchronize: true,
-    }),],
+    // TypeOrmModule.forRoot({
+    //   type: 'mysql',
+    //   host: 'localhost',
+    //   port: 3307,
+    //   username: 'root',
+    //   password: 'darsh123',
+    //   database: 'mysqltest',
+    //   entities: [Category],
+    //   synchronize: true,
+    // }),
+  ],
   controllers: [AppController, CategoriesController],
   providers: [AppService],
 })
