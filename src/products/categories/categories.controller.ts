@@ -1,17 +1,14 @@
 import { Controller, Get } from '@nestjs/common';
 import { get } from 'http';
+import { CategoriesService } from './categories.service';
 import { Category } from './Category';
 
 @Controller('products/categories')
 export class CategoriesController {
+    constructor(private repo:CategoriesService){ }
     @Get()
     GetAll() {
-        return [{
-            id: 1,
-            color: "red",
-            icon: "home",
-            name: "some name"
-        } as Category
-        ];
+        return this.repo.getAll();
     }
+    //TODO: create post
 }

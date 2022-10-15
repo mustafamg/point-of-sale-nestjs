@@ -17,8 +17,9 @@ import { ProductsModule } from './products/products.module';
       database: 'mysqltest',
       entities: [Category],
       synchronize: true,
-    }),],
-  controllers: [AppController, CategoriesController],
+    }),
+  ],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
