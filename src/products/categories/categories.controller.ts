@@ -1,14 +1,33 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Res } from '@nestjs/common';
+import { getDataSourceName, InjectRepository } from '@nestjs/typeorm';
+import { Response } from 'express';
 import { get } from 'http';
+import { Repository } from 'typeorm';
 import { CategoriesService } from './categories.service';
 import { Category } from './Category';
 
 @Controller('products/categories')
 export class CategoriesController {
-    constructor(private repo:CategoriesService){ }
+
+    constructor(
+        @InjectRepository(Category)
+        private CategorysRepository: Repository<Category>){ }
+    
+    @Get(":id")
+    GetById(@Param() params) {
+        const result = this.CategorysRepository.findOneBy({id:params.id});
+        return result;
+    }
+
     @Get()
     GetAll() {
-        return this.repo.getAll();
+        return this.CategorysRepository.find();
     }
-    //TODO: create post
+    
+    @Post()
+    Create(@Body()item:Category):boolean{
+        //this.categories.push(item);
+        console.log(item);
+        return true;        
+    }
 }
