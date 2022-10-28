@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Res } from '@nestjs/common';
 import { getDataSourceName, InjectRepository } from '@nestjs/typeorm';
 import { Response } from 'express';
 import { get } from 'http';
@@ -26,8 +26,27 @@ export class CategoriesController {
     
     @Post()
     Create(@Body()item:Category):boolean{
-        //this.categories.push(item);
+        this.CategorysRepository.save(item);
         console.log(item);
         return true;        
+    }
+
+    @Patch(":id")
+    async Update(@Param() params, @Body()item:Category) {
+        let result = await this.CategorysRepository.createQueryBuilder()
+        .update("category")
+        .set({id: params.id,...item})
+        .where("id = :id", { id: params.id })
+        .execute();
+        if(result.affected == 0){
+            console.warn("there is no such category ID");
+        }
+        return true;
+    }
+
+    @Delete(":id")
+    Delete(@Param() params){
+        this.CategorysRepository.delete({id:params.id});
+        return true;
     }
 }
