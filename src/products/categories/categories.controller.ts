@@ -1,17 +1,52 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Res } from '@nestjs/common';
+import { getDataSourceName, InjectRepository } from '@nestjs/typeorm';
+import { Response } from 'express';
 import { get } from 'http';
+import { Repository } from 'typeorm';
+import { CategoriesService } from './categories.service';
 import { Category } from './Category';
 
 @Controller('products/categories')
 export class CategoriesController {
+
+    constructor(
+        @InjectRepository(Category)
+        private CategorysRepository: Repository<Category>){ }
+    
+    @Get(":id")
+    GetById(@Param() params) {
+        const result = this.CategorysRepository.findOneBy({id:params.id});
+        return result;
+    }
+
     @Get()
     GetAll() {
-        return [{
-            id: 1,
-            color: "red",
-            icon: "home",
-            name: "some name"
-        } as Category
-        ];
+        return this.CategorysRepository.find();
+    }
+    
+    @Post()
+    Create(@Body()item:Category):boolean{
+        this.CategorysRepository.save(item);
+        console.log(item);
+        return true;        
+    }
+
+    @Patch(":id")
+    async Update(@Param() params, @Body()item:Category) {
+        let result = await this.CategorysRepository.createQueryBuilder()
+        .update("category")
+        .set({id: params.id,...item})
+        .where("id = :id", { id: params.id })
+        .execute();
+        if(result.affected == 0){
+            console.warn("there is no such category ID");
+        }
+        return true;
+    }
+
+    @Delete(":id")
+    Delete(@Param() params){
+        this.CategorysRepository.delete({id:params.id});
+        return true;
     }
 }

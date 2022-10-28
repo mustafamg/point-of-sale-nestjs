@@ -7,18 +7,21 @@ import { Category } from './products/categories/Category';
 import { ProductsModule } from './products/products.module';
 
 @Module({
-  imports: [ProductsModule,
+  imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
       port: 3307,
       username: 'root',
       password: 'darsh123',
-      database: 'mysqltest',
+      database: 'PoS',
       entities: [Category],
       synchronize: true,
-    }),],
-  controllers: [AppController, CategoriesController],
+    }),
+    
+    ProductsModule,    
+  ],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
