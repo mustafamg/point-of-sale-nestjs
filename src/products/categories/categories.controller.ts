@@ -33,11 +33,6 @@ export class CategoriesController {
 
     @Patch(":id")
     async Update(@Param() params, @Body()item:Category) {
-        // let oldItem = await this.CategorysRepository.findOneBy({id:params.id});
-        // oldItem = item;
-        // if(oldItem){
-        //     await this.CategorysRepository.save({id: oldItem.id, ...item});
-        // }
         let result = await this.CategorysRepository.createQueryBuilder()
         .update("category")
         .set({id: params.id,...item})
