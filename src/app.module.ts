@@ -11,10 +11,10 @@ import { ProductsModule } from './products/products.module';
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
-      port: 3307,
+      port: 3306,
       username: 'root',
-      password: 'darsh123',
-      database: 'PoS',
+      password: 'root',
+      database: 'my_test',
       entities: [Category],
       synchronize: true,
     }),
