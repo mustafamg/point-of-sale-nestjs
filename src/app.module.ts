@@ -14,7 +14,7 @@ import { ProductsModule } from './products/products.module';
       port: 3307,
       username: 'root',
       password: 'darsh123',
-      database: 'mysqltest',
+      database: 'PoS',
       entities: [Category],
       synchronize: true,
     }),
