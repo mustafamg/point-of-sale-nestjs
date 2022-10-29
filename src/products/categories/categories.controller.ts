@@ -11,29 +11,30 @@ export class CategoriesController {
 
     constructor(
         @InjectRepository(Category)
-        private CategorysRepository: Repository<Category>){ }
+        private categorysRepository: Repository<Category>){ }
     
     @Get(":id")
     GetById(@Param() params) {
-        const result = this.CategorysRepository.findOneBy({id:params.id});
+        const result = this.categorysRepository.findOneBy({id:params.id});
         return result;
     }
 
     @Get()
     GetAll() {
-        return this.CategorysRepository.find();
+        return this.categorysRepository.find();
     }
     
     @Post()
     Create(@Body()item:Category):boolean{
-        this.CategorysRepository.save(item);
+        this.categorysRepository.save(item);
         console.log(item);
         return true;        
     }
 
     @Patch(":id")
     async Update(@Param() params, @Body()item:Category) {
-        let result = await this.CategorysRepository.createQueryBuilder()
+        
+        let result = await this.categorysRepository.createQueryBuilder()
         .update("category")
         .set({id: params.id,...item})
         .where("id = :id", { id: params.id })
@@ -46,7 +47,7 @@ export class CategoriesController {
 
     @Delete(":id")
     Delete(@Param() params){
-        this.CategorysRepository.delete({id:params.id});
+        this.categorysRepository.delete({id:params.id});
         return true;
     }
 }
