@@ -17,12 +17,9 @@ import { UsersModule } from './users/users.module';
       database: 'PoS',
       entities: [Category],
       synchronize: true,
-    }),
-    
-    ProductsModule,
-    
-    AuthModule,
-    
+    }),    
+    ProductsModule,    
+    AuthModule,    
     UsersModule,    
   ],
   controllers: [AppController],
