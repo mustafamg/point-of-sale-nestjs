@@ -15,7 +15,7 @@ import { AuthModule } from './auth/auth.module';
 const dbConnection = TypeOrmModule.forRoot({
   type: 'mysql',
   host: 'localhost',
-  port: 3306,
+  port: 3307,
   username: 'root',
   password: 'darsh123',
   database: 'PoS',
