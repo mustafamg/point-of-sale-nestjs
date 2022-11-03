@@ -19,3 +19,4 @@ export class Category {
   @Column({ default: "red" })
   color: string;
 }
+
