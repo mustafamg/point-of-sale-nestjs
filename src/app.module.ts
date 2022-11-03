@@ -17,7 +17,7 @@ const dbConnection = TypeOrmModule.forRoot({
   host: 'localhost',
   port: 3306,
   username: 'root',
-  password: '123',
+  password: 'darsh123',
   database: 'PoS',
   entities: [Category, Product, Shift, User],
   synchronize: true,
