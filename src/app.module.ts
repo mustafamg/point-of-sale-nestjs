@@ -10,6 +10,7 @@ import { User } from './users/user';
 import { UserModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { Product } from './products/product';
+import { AuthModule } from './auth/auth.module';
 
 const dbConnection = TypeOrmModule.forRoot({
   type: 'mysql',
@@ -28,7 +29,8 @@ const dbConnection = TypeOrmModule.forRoot({
     CategoriesModule,
     ShiftsModule,
     UserModule,
-    ProductsModule
+    ProductsModule,
+    AuthModule
  ],
   controllers: [AppController],
   providers: [AppService], 
