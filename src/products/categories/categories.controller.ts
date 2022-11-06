@@ -1,9 +1,6 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Res } from '@nestjs/common';
-import { getDataSourceName, InjectRepository } from '@nestjs/typeorm';
-import { Response } from 'express';
-import { get } from 'http';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CategoriesService } from './categories.service';
 import { Category } from './Category';
 
 @Controller('products/categories')
@@ -34,11 +31,7 @@ export class CategoriesController {
     @Patch(":id")
     async Update(@Param() params, @Body()item:Category) {
         
-        let result = await this.categorysRepository.createQueryBuilder()
-        .update("category")
-        .set({id: params.id,...item})
-        .where("id = :id", { id: params.id })
-        .execute();
+        let result = await this.categorysRepository.createQueryBuilder().update("category").set({id: params.id,...item}).where("id = :id", { id: params.id }).execute();
         if(result.affected == 0){
             console.warn("there is no such category ID");
         }

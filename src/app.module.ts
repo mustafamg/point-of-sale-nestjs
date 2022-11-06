@@ -6,6 +6,8 @@ import { Category } from './products/categories/Category';
 import { ProductsModule } from './products/products.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { AccessControlModule } from 'nest-access-control';
+import { roles } from './auth/auth.roles';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -17,10 +19,11 @@ import { UsersModule } from './users/users.module';
       database: 'PoS',
       entities: [Category],
       synchronize: true,
-    }),    
-    ProductsModule,    
-    AuthModule,    
-    UsersModule,    
+    }),
+    AccessControlModule.forRoles(roles),
+    ProductsModule, 
+    AuthModule,
+    UsersModule,  
   ],
   controllers: [AppController],
   providers: [AppService],

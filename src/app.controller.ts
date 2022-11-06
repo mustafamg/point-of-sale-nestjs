@@ -1,8 +1,10 @@
-import { Controller, Get, Post, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, UseGuards, Request, Body } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ACGuard, UseRoles } from 'nest-access-control';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { User } from './users/users.service';
 
 @Controller()
 export class AppController {
@@ -13,15 +15,27 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @UseGuards(AuthGuard('local'))
   @Post('auth/login')
-  async login(@Request() req): Promise<{ access_token: string; }> {
-    return this.authService.login(req.user);
+  async login(@Body()user:User): Promise<{ access_token: string; }> {
+    let result = this.authService.login(user);
+    console.log(result);
+    return result;
   }
 
   @UseGuards(JwtAuthGuard)
   @Get("protected")
   protected(): string {
     return this.appService.getHello() + " protected";
+  }  
+  
+  @UseGuards(JwtAuthGuard, ACGuard)
+  @UseRoles({
+    resource:   'product',
+    action:     'read',
+    possession: 'any',
+  })
+  @Get("protectedWithRoles")
+  protectedWithRoles(): string {
+    return this.appService.getHello() + " protected with roles";
   }
 }

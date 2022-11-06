@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { AppRoles } from 'src/auth/auth.roles';
 
 // This should be a real class/interface representing a user entity
 export type User = any;
@@ -10,11 +11,13 @@ export class UsersService {
       userId: 1,
       username: 'Mustafa',
       password: 'darsh',
+      roles: [AppRoles.CUD_PRODUCT]
     },
     {
       userId: 2,
       username: 'Ali',
       password: 'march',
+      roles: [AppRoles.CUD_CATEGORY]
     },
   ];
 
