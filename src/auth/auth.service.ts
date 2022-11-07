@@ -21,7 +21,6 @@ export class AuthService {
 
   async login(user: any) {
     const result = await this.validateUser(user.username, user.password);
-     console.log(result)
     if(result == null)
       return null;
     const payload = { 
