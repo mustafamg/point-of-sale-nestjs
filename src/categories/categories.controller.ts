@@ -1,12 +1,13 @@
 import { Body, Controller, Get, Param, Patch, Post , Delete , Headers, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 import { CategoriesService } from './categories.service';
 import { Category } from './Category';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('products/categories')
 export class CategoriesController {
     constructor( private categoriesService: CategoriesService){}
-
+    
     @Post()
     createCategory(@Body() item:Category){
         return this.categoriesService.createCategory(item);
@@ -22,7 +23,7 @@ export class CategoriesController {
         return this.categoriesService.deleteCategory(headerObj.id);
     }
     
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(AuthGuard('jwt'))
     @Get()
     getAll() {
        return this.categoriesService.getAll();

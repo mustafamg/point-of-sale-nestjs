@@ -13,4 +13,4 @@ import { Shift } from './../shifts/Shift';
     exports:[UserService]
 })
 
-export class UserModule {}
+export class UsersModule {}

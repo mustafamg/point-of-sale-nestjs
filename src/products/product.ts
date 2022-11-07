@@ -26,7 +26,7 @@ export class Product {
     @Column()
     price: number;
 
-    @Column()
+    @Column({unique:true})
     barcode: string; 
    
     @ManyToOne(() => Category , (category) => category.name) //(user) => user.photos 
@@ -45,29 +45,3 @@ export class Product {
     optimal_stock: number;     
 }
 
-
-
-
-
-
-
-
-
-
-
-// export interface ProductDetails {
-//     id: number;
-//     name: string;
-//     price: number;
-//     low_stock: number;
-//     optimal_stock: number;
-//     barcode: string;
-//     category_id: number;
-//     created_at?: any;
-//     updated_at?: any;
-//     stock: Stock;
-//     category: {
-//       id: number;
-//       name: string;
-//     };
-//   }

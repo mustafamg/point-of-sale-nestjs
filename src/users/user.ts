@@ -8,9 +8,8 @@ export class User {
     @PrimaryGeneratedColumn() 
     id: number;
 
-    @IsNotEmpty()
     @IsString()
-    @Column()
+    @Column({default: "demo user"})
     name: string;
  
     @IsEmail()
@@ -24,36 +23,17 @@ export class User {
     @Column()
     password:string
 
-    @IsNotEmpty()
     @IsString()
-    @Column()
+    @Column({default: "user"})
     role: string;
 
     @IsOptional()
     @Column({default:null})
     photo: string | null;
 
+    @IsOptional()
     @ManyToOne(() => Shift, (shift) => shift.name) //  
     @JoinColumn()
     shift: Shift  
 }
 
-// export interface User {
-//     id?: number;
-//     name: string;
-//     email: string;
-//     role: string;
-//     userId: number;
-//     photo: string | null;
-  
-//     user_shift: {
-//       id: number;
-//       user_id: number;
-//       shift_id: number;
-//       shift: {
-//         id: number;
-//         name: string;
-//       };
-//     } | null;
-//   }
-   

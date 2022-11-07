@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { PaginatedProductsResultDto } from './dto/paginated-products-result.dto';
 import { PaginationDto } from './dto/pagination.dto';
 import { ProductDto } from './dto/product.dto';
-import { Product } from './product';
 import { ProductsService } from './products.service';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('products')
 export class ProductsController {
     constructor(private productsService:ProductsService){}
@@ -12,7 +13,6 @@ export class ProductsController {
     @Post()
     createProduct(@Body() newProduct:ProductDto){
         return this.productsService.createProduct(newProduct)
-        // return true
     }
 
     @Patch(':id')
@@ -28,13 +28,11 @@ export class ProductsController {
 
     @Get()
     getProducts(@Query() paginationDto: PaginationDto): Promise<PaginatedProductsResultDto>{
-        paginationDto.page = paginationDto.page === undefined ? paginationDto.page: 0;
-        paginationDto.pageSize = paginationDto.pageSize == NaN ? paginationDto.pageSize : 20;
+        paginationDto.page = paginationDto.page == undefined ? paginationDto.page: 0;
+        paginationDto.pageSize = paginationDto.pageSize == undefined ? paginationDto.pageSize : 10;
         paginationDto.page = Number(paginationDto.page);
         paginationDto.pageSize = Number(paginationDto.pageSize);
 
-        console.log(paginationDto.page)
-        console.log(paginationDto.pageSize)
         return this.productsService.getProducts({
             page: paginationDto.page, //  ...paginationDto
             pageSize: paginationDto.pageSize > 100 ? 100 : paginationDto.pageSize

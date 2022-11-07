@@ -7,7 +7,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { Shift } from './shifts/Shift';
 import { ShiftsModule } from './shifts/shifts.module';
 import { User } from './users/user';
-import { UserModule } from './users/users.module';
+import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { Product } from './products/product';
 import { AuthModule } from './auth/auth.module';
@@ -22,13 +22,13 @@ const dbConnection = TypeOrmModule.forRoot({
   entities: [Category, Product, Shift, User],
   synchronize: true,
 })
-
+   
 @Module({
   imports: [ 
     dbConnection,
     CategoriesModule,
     ShiftsModule,
-    UserModule,
+    UsersModule,
     ProductsModule,
     AuthModule
  ],

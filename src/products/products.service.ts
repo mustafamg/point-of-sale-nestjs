@@ -11,6 +11,10 @@ export class ProductsService {
 
     async createProduct(newProduct) {
         const {name,price,barcode,category_id,stock_type,low_stock,optimal_stock} = newProduct
+        const checkProduct = await this.productRepository.findOneBy({barcode})
+        if (checkProduct) {
+            return {message: "this barecode is already exists"}
+        }
         return await this.productRepository.save({name,price,barcode,category:category_id,stock_type,low_stock,optimal_stock})
     }
 
@@ -24,7 +28,6 @@ export class ProductsService {
     }
 
     async getProductById(id){
-        // return await this.productRepository.findOneBy({id})
         const products = this.productRepository.find({
             relations: {
                 category: true,

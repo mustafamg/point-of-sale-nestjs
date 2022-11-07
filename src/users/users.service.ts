@@ -11,12 +11,12 @@ export class UserService {
     constructor(@InjectRepository(User) private userRepository: Repository<User>){}
 
     async createUser(item){
-        const {email} = item
-        const user = await this.userRepository.findOneBy({email})       
+        const {username,password} = item
+        const user = await this.userRepository.findOneBy({email:username})       
         if (user) {
             return {message: "already exists"}
         }
-        const newUser = await this.userRepository.save(item)
+        const newUser = await this.userRepository.save({email:username,password})
         delete newUser.password
         return {message: "created" , newUser}
     }
