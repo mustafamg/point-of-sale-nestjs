@@ -1,4 +1,3 @@
-import { isNotEmpty, IsNotEmpty } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { IsNotEmpty } from 'class-validator';
 
@@ -16,4 +15,3 @@ export class Category {
   @Column()
   color: string;
 }
-
