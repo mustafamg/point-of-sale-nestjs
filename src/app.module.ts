@@ -9,7 +9,6 @@ import { ProductsModule } from './products/products.module';
 import { Shift } from './users/shifts/Shift';
 import { User } from './users/User';
 import { UsersModule } from './users/users.module';
-
 @Module({
   imports: [ProductsModule, UsersModule, AuthModule,
     TypeOrmModule.forRoot({
