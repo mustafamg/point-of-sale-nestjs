@@ -2,12 +2,16 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Category } from './products/categories/Category';
-import { ProductsModule } from './products/products.module';
 import { AuthModule } from './auth/auth.module';
+import { Category } from './products/categories/Category';
+import { Product } from './products/Product';
+import { ProductsModule } from './products/products.module';
+import { Shift } from './users/shifts/Shift';
+import { User } from './users/User';
 import { UsersModule } from './users/users.module';
+
 @Module({
-  imports: [
+  imports: [ProductsModule, UsersModule, AuthModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -15,13 +19,9 @@ import { UsersModule } from './users/users.module';
       username: 'root',
       password: 'password',
       database: 'PoS',
-      entities: [Category],
+      entities: [Category, Product, User, Shift],
       synchronize: true,
-    }),    
-    ProductsModule,    
-    AuthModule,    
-    UsersModule,    
-  ],
+    }),],
   controllers: [AppController],
   providers: [AppService],
 })
