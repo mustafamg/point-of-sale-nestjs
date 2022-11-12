@@ -1,6 +1,9 @@
 import { IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Shift } from './../shifts/Shift';
+// import { Role } from "../authorization/RBAC/role.enum";
+import { AppRoles } from "src/authorization/nest-access-control/app.roles";
+// import { AppRoles } from "src/authorization/nest-access-control/app.roles";
 
 
 @Entity()
@@ -23,9 +26,13 @@ export class User {
     @Column()
     password:string
 
-    @IsString()
-    @Column({default: "user"})
-    role: string;
+    @IsOptional()
+    @Column({
+        type: "enum",
+        enum: AppRoles,
+        default: AppRoles.USER,
+    })
+    roles: AppRoles[]
 
     @IsOptional()
     @Column({default:null})
@@ -34,6 +41,16 @@ export class User {
     @IsOptional()
     @ManyToOne(() => Shift, (shift) => shift.name) //  
     @JoinColumn()
-    shift: Shift  
+    shift: Shift 
+    
+    /*  // ---- Test Authurization with RBAC
+   
+    @IsOptional()
+    @Column({
+        type: "enum",
+        enum: Role,
+        default: Role.User,
+    })
+    roles: Role[] */
 }
 

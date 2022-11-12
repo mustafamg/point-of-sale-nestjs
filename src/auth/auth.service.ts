@@ -1,10 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/users/users.service';
+import { JwtStrategy } from './jwt/jwt.strategy';
 
 @Injectable()
 export class AuthService {
-  constructor (private userService: UserService, private jwtService: JwtService) {}
+  constructor (private userService: UserService, private jwtStrategy: JwtStrategy) {}
 
   async register(user: any){
     const checkUser = await this.userService.createUser(user)
@@ -12,6 +12,15 @@ export class AuthService {
         return {message : "already exists"}
     }
     return checkUser
+  }
+
+ 
+  async login(user: any): Promise<{ access_token: string; } | {message:string}>  {
+    const ckeckUser = await this.checkUserInDB(user.email, user.password);
+    if (!ckeckUser) {
+      return {message: "email or password incorrect"};
+    }
+    return this.jwtStrategy.generateToken(ckeckUser)
   }
 
   async checkUserInDB(email: string, pass: string): Promise<any> {
@@ -23,19 +32,4 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
-    const ckeckUser = await this.checkUserInDB(user.email, user.password);
-    if (!ckeckUser) {
-      throw new UnauthorizedException();
-    }
-    const payload = { 
-      email: ckeckUser.email,
-      userId: ckeckUser.id,
-      name: ckeckUser.name,
-      role: ckeckUser.role,
-    };
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
-  }
 }

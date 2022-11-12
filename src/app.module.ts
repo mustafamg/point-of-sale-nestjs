@@ -11,6 +11,11 @@ import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { Product } from './products/product';
 import { AuthModule } from './auth/auth.module';
+import { AccessControlModule } from 'nest-access-control';
+import { roles } from './authorization/nest-access-control/app.roles';
+// import { RolesGuard } from './authorization/RBAC/roles.guard';
+// import { AccessControlModule } from 'nest-access-control';
+// import { roles } from './authorization/nest-access-control/app.roles';
 
 const dbConnection = TypeOrmModule.forRoot({
   type: 'mysql',
@@ -23,6 +28,11 @@ const dbConnection = TypeOrmModule.forRoot({
   synchronize: true,
 })
    
+
+
+
+const nestAccess = AccessControlModule.forRoles(roles)
+
 @Module({
   imports: [ 
     dbConnection,
@@ -30,9 +40,10 @@ const dbConnection = TypeOrmModule.forRoot({
     ShiftsModule,
     UsersModule,
     ProductsModule,
-    AuthModule
+    AuthModule,
+    nestAccess    
  ],
   controllers: [AppController],
-  providers: [AppService], 
+  providers: [AppService], //RolesGuard --- for testing authorization with RBAC
 })
 export class AppModule {}

@@ -27,7 +27,7 @@ export class UserService {
                 shift: true,
             },
         })
-        return allUsers
+        return {message:"all users" , allUsers}
     }
 
     async getUserById(id){
@@ -50,8 +50,8 @@ export class UserService {
         if (!getUser) {
             return {message : "id yok"}
         }
-            // await this.userRepository.save({...item , id: getUser.id})
-        return getUser
+            await this.userRepository.save({...item , id: getUser.id})
+            return {message : "updated"}
     }
 
 

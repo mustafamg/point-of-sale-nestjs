@@ -3,7 +3,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { AuthService } from './auth.service';
 import { LoginDto } from "./dto/login.dto";
 import { RegisterDto } from "./dto/register.dto";
-import { JwtStrategy } from './jwt.strategy';
+import { JwtStrategy } from './jwt/jwt.strategy';
 
 
 
@@ -17,9 +17,9 @@ export class AuthController{
     }
   
     @Post('login')
-  async login(@Body() loginInfo:LoginDto): Promise<{ access_token: string; }> { //@Request() req:any
-    return this.authService.login(loginInfo);
-  }
+    async login(@Body() loginInfo:LoginDto): Promise<{ access_token: string; } | {message:string}> { //@Request() req:any
+      return this.authService.login(loginInfo);
+    }
 
   
 
