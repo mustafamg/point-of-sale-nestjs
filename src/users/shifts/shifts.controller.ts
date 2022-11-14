@@ -1,6 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import { InjectRepository } from "@nestjs/typeorm";
 import { get } from "http";
+import { ACGuard, UseRoles } from "nest-access-control";
 import { CreateDateColumn, Repository } from "typeorm";
 import { brotliDecompressSync } from "zlib";
 import { Shift } from "./Shift";
@@ -10,21 +12,38 @@ export class ShiftsController{
     constructor(@InjectRepository(Shift)
     private shiftsRepository : Repository<Shift>){}
 
+    @UseGuards(AuthGuard('jwt'), ACGuard)
+      @UseRoles({
+        resource:  'shift',
+        action:  'read',
+        possession:  'any',
+      })
     @Get()
     GetAllUsers(){
         return this.shiftsRepository.find();
     }
 
+    @UseGuards(AuthGuard('jwt'), ACGuard)
+      @UseRoles({
+        resource:  'shift',
+        action:  'create',
+        possession:  'any',
+      })
     @Post()
-    async Create(@Body()newUser:Shift){
-        /*const existingUser = await this.shiftsRepository.findOneBy({id: newUser.id});
-        if(existingUser){
-            console.warn("This user already exists!");
+    async Create(@Body()newShift:Shift){
+        const existingShift = await this.shiftsRepository.findOneBy({id: newShift.id});
+        if(existingShift){
+            console.warn("This shift already exists!");
         }
-        else*/
-        await this.shiftsRepository.save(newUser);
-        return true;
+        await this.shiftsRepository.save(newShift);
     }
+
+    @UseGuards(AuthGuard('jwt'), ACGuard)
+      @UseRoles({
+        resource:  'shift',
+        action:  'update',
+        possession:  'any',
+      })
     @Patch(":id")
     async Update(@Param() params, @Body() updatedShift: Shift){
         const oldProduct = await this.shiftsRepository.findOneBy({id: params.id});
@@ -35,6 +54,12 @@ export class ShiftsController{
         console.warn("This item does not exist!");
     }
 
+    @UseGuards(AuthGuard('jwt'), ACGuard)
+      @UseRoles({
+        resource:  'shift',
+        action:  'delete',
+        possession:  'any',
+      })
     @Delete(":id")
     async Delete(@Param() params){
         const existingshift = await this.shiftsRepository.findOneBy({id: params.id});
