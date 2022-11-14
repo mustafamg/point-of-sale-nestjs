@@ -1,7 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { ACGuard, UseRoles } from "nest-access-control";
 import { Repository } from "typeorm";
 import { User } from "./User";
 
@@ -10,12 +8,6 @@ export class UsersController{
     constructor(@InjectRepository(User)
     private usersRepository : Repository<User>){}
 
-    @UseGuards(AuthGuard('jwt'), ACGuard)
-      @UseRoles({
-        resource:  'user',
-        action:  'read',
-        possession:  'any',
-      })
     @Get()
     GetAllUsers(){
         return this.usersRepository.find({
@@ -25,23 +17,6 @@ export class UsersController{
         });
     }
 
-    @UseGuards(AuthGuard('jwt'), ACGuard)
-      @UseRoles({
-        resource:  'user',
-        action:  'read',
-        possession:  'any',
-      })
-    @Get(":id")
-    GetUserById(@Param() params){
-        return this.usersRepository.findOneBy({id : params.id});
-    }
-
-    @UseGuards(AuthGuard('jwt'), ACGuard)
-      @UseRoles({
-        resource:  'user',
-        action:  'create',
-        possession:  'any',
-      })
     @Post()
     async Create(@Body() newUser:User){
         const existingUser = await this.usersRepository.findOneBy({email: newUser.email});
@@ -50,14 +25,14 @@ export class UsersController{
             return false;
         }
         await this.usersRepository.save(newUser);
+        //console.log(newUser.shifts[1]);
     }
 
-    @UseGuards(AuthGuard('jwt'), ACGuard)
-      @UseRoles({
-        resource:  'user',
-        action:  'update',
-        possession:  'any',
-      })
+    @Get(":id")
+    GetUserById(@Param() params){
+        return this.usersRepository.findOneBy({id : params.id});
+    }
+
     @Patch(":id")
     async Update(@Param() params, @Body() updatedUser: User){
         const oldUser = await this.usersRepository.findOneBy({id: params.id});
@@ -67,12 +42,6 @@ export class UsersController{
         await this.usersRepository.save({id:oldUser.id, ...updatedUser});
     }
 
-    @UseGuards(AuthGuard('jwt'), ACGuard)
-      @UseRoles({
-        resource:  'user',
-        action:  'delete',
-        possession:  'any',
-      })
     @Delete(":id")
     async Delete(@Param() params){
         const existingUser = await this.usersRepository.findOneBy({id: params.id});
