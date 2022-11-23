@@ -34,11 +34,12 @@ export class CategoriesController {
     @Patch(":id")
     async Update(@Param() params, @Body()item:Category) {
         
-        let result = await this.categorysRepository.createQueryBuilder()
-        .update("category")
-        .set({id: params.id,...item})
-        .where("id = :id", { id: params.id })
-        .execute();
+        let result = await this.categorysRepository
+            .createQueryBuilder()
+            .update("category")
+            .set({id: params.id,...item})
+            .where("id = :id", { id: params.id })
+            .execute();
         if(result.affected == 0){
             console.warn("there is no such category ID");
         }
