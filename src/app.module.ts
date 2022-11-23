@@ -18,7 +18,7 @@ import { UsersModule } from './users/users.module';
       host: 'localhost',
       port: 3307,
       username: 'root',
-      password: 'darsh123',
+      password: '',
       database: 'PoS',
       entities: [Category, Product, User, Shift],
       synchronize: true,
