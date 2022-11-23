@@ -10,7 +10,7 @@ import { Shift } from './users/shifts/Shift';
 import { User } from './users/User';
 import { UsersModule } from './users/users.module';
 @Module({
-  imports: [ProductsModule, UsersModule, AuthModule,
+  imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -20,7 +20,11 @@ import { UsersModule } from './users/users.module';
       database: 'PoS',
       entities: [Category, Product, User, Shift],
       synchronize: true,
-    }),],
+    }),    
+    ProductsModule,    
+    AuthModule,    
+    UsersModule,    
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

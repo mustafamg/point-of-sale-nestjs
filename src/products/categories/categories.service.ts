@@ -18,14 +18,13 @@ export class CategoriesService {
     return this.CategorysRepository.findOneBy({ id });
   } 
    
-  async Update(id: number, body: Category){
-    const oldItem = await this.getById(id);
-    if(!oldItem)
-    {
-      console.warn("The category does not exist!");
-      return false;
-    }
-    await this.CategorysRepository.save({id, ...body});
+  async Update(id: number, item: Category) {
+    return await this.CategorysRepository
+            .createQueryBuilder()
+            .update("category")
+            .set({...item})
+            .where("id = :id", { id: id })
+            .execute();
   }
 
   async Create(body: Category){

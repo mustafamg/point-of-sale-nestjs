@@ -1,6 +1,4 @@
-import { IsEmail, IsNotEmpty } from "class-validator";
-import { userInfo } from "os";
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Shift } from "./shifts/Shift";
 
 export enum UserRole {
@@ -31,5 +29,4 @@ export class User{
     @ManyToOne(() => Shift, (shift) => shift.name)
     @JoinColumn()
     shift: Shift;
-
 }

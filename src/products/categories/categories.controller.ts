@@ -1,6 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Res, HttpStatus } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { Category } from './Category';
 
@@ -12,7 +10,6 @@ export class CategoriesController {
     @Get(":id")
     GetById(@Param() params){
         return this.categoriesService.getById(params.id);
-     
     }
 
     @Get()
@@ -21,19 +18,16 @@ export class CategoriesController {
     }
 
     @Patch(":id")
-    Update(@Param() params, @Body() item :Category){
-        return this.categoriesService.Update(params.id, item);
-    }
-
-    @Post()
-    Create(@Body()item:Category){
-        return this.categoriesService.Create(item);
+    async Update(@Param() params, @Body()item:Category) {        
+        let result = await this.categoriesService.Update(params.id, item);
+        if(result.affected == 0){
+            return false;
+        }
+        return true;
     }
 
     @Delete(":id")
     Delete(@Param() params){
         return this.categoriesService.Delete(params.id);
     }
-
-
 }
