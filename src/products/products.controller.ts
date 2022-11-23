@@ -1,7 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { FilterOperator, Paginate, PaginateQuery, paginate, Paginated } from 'nestjs-paginate'
 import { Product } from "./Product";
 
 @Controller('products')
