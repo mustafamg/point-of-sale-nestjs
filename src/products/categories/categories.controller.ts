@@ -1,11 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { CommandBus } from '@nestjs/cqrs';
+import { CreateCategoryCommand } from './Cammands/create-category.command';
 import { CategoriesService } from './categories.service';
 import { Category } from './Category';
 
 @Controller('products/categories')
 export class CategoriesController {
-
-    constructor( private categoriesService: CategoriesService){}
+    constructor(private commandBus: CommandBus, private categoriesService: CategoriesService){}
 
     @Get(":id")
     GetById(@Param() params){
@@ -15,6 +16,13 @@ export class CategoriesController {
     @Get()
     GetAll(){
         return this.categoriesService.getAll();
+    }
+ 
+    @Post()
+    async Create(@Body()item:Category) { 
+        this.commandBus.execute(
+            new CreateCategoryCommand(item.name, item.icon, item.color)
+          );
     }
 
     @Patch(":id")

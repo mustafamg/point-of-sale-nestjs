@@ -32,10 +32,10 @@ export class CategoriesService {
     if(existingItem)
     {
       console.warn("This category name already exists!");
-      return false;
+      return null;
     }
 
-    await this.CategorysRepository.save(body);
+    return await this.CategorysRepository.save(body);
 }
 
   async Delete(id: number){
