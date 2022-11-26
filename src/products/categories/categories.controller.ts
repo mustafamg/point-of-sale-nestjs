@@ -18,7 +18,7 @@ export class CategoriesController {
     }
 
     @Patch(":id")
-    async Update(@Param() params, @Body()item:Category) {        
+    async Update(@Param() params, @Body()item:Category): Promise<boolean> {        
         let result = await this.categoriesService.Update(params.id, item);
         if(result.affected == 0){
             return false;

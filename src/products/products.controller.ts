@@ -34,8 +34,9 @@ export class ProductsController{
             console.warn("This product already exists");
             return false;
         }
-        else
-        return await this.productsRepository.save(newProduct);
+        // else
+        const data = await this.productsRepository.save(newProduct);
+        return {data};
     }
 
     @Patch(":id")
