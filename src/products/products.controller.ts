@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 import { Product } from "./Product";
 
 @Controller('products')
@@ -9,14 +9,19 @@ export class ProductsController{
     constructor(@InjectRepository(Product)
     private productsRepository : Repository<Product>){}
 
-
-    /*@Get()
-    async GetAllProducts(){
-        
-
+    @Get()
+    async GetAll(){        
         return this.productsRepository.find();
-    }*/
+    }
     
+    @Get("filter")
+    async Search(@Query() params):Promise<Product[]>{
+        const searchQuery = params.searchQuery;
+        return this.productsRepository.createQueryBuilder("product")
+        .where("name like :name", { name:`%${searchQuery}%` })
+        .getMany();
+    }
+
     @Get(":name")
     GetProductByname(@Param() params : Product): Promise<Product>{
         return this.productsRepository.findOneBy({name:params.name});
@@ -30,7 +35,7 @@ export class ProductsController{
             return false;
         }
         else
-        await this.productsRepository.save(newProduct);
+        return await this.productsRepository.save(newProduct);
     }
 
     @Patch(":id")

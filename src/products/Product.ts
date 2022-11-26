@@ -13,9 +13,9 @@ export class Product{
   @PrimaryGeneratedColumn()
   id: number;
   @CreateDateColumn()
-  create_at: Date;
+  createdAt: Date;
   @UpdateDateColumn()
-  update_at: Date;
+  updatedAt: Date;
   @Column()
   name: string;
   @Column()
@@ -23,13 +23,12 @@ export class Product{
   @Column()
   barcode: string;
   @Column()
-  low_stock: number;  
+  lowStock: number;  
   @Column()
-  optimal_stock: number;
+  optimalStock: number;
   @Column()
-  stock_type: stockType;
+  stockType: stockType;
   @ManyToOne(()=>Category, (category)=> category.name)
-  category : Category
-  
+  category : Category  
 }
 
